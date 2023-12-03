@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --experimental-https",
     "build": "next build",
     "start": "next start",
     "tsc": "tsc --noEmit",
@@ -11,9 +11,11 @@
     "lint:fix": "next lint --dir src --fix"
   },
   "dependencies": {
+    "axios": "^1.6.2",
     "next": "14.0.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "swr": "^2.2.4"
   },
   "devDependencies": {
     "@types/node": "^20",
