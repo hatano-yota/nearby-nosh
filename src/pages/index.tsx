@@ -1,25 +1,40 @@
+/* eslint-disable */
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { useShops } from '@/hooks/api/useShops';
 import { Geolocation } from '@/lib/Geolocation';
+import { Shop } from '@/lib/Shop';
 
 const Home: NextPage = () => {
-  const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [range, setRange] = useState(4);
 
   const getCurrentLocation = async () => {
     try {
       const position: GeolocationPosition = await Geolocation.getCurrentPosition();
-      setLocation(position.coords);
+      setLat(position.coords.latitude);
+      setLng(position.coords.longitude);
     } catch (positionError) {
       alert(positionError);
     }
   };
 
+  useEffect(() => {
+    void getCurrentLocation();
+  }, []);
+
+  const { shops, isLoading, isError } = useShops(lat, lng, range);
+
+  if (isError) return <div>Error fetching data</div>;
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <>
       <Head>
-        <title>近くのお店を探す</title>
+        <title>近くの飲食店を探す | NEARBY NOSH</title>
         <meta
           name="description"
           content="『NEARBY NOSH』は、現在地からお近くの飲食店を検索するWebサービスです。"
@@ -30,14 +45,20 @@ const Home: NextPage = () => {
       <main>
         <button onClick={getCurrentLocation}>現在地を取得する</button>
         <div>
-          <h1>Geolocation Example</h1>
-          {location && (
-            <div>
-              <p>Latitude: {location.latitude}</p>
-              <p>Longitude: {location.longitude}</p>
-              <p>Accuracy: {location.accuracy} meters</p>
-            </div>
-          )}
+          <div>
+            <p>Latitude: {lat}</p>
+            <p>Longitude: {lng}</p>
+          </div>
+        </div>
+
+        <button>近くの飲食店を検索する</button>
+        <div>
+          {shops &&
+            shops.map((shop: Shop) => (
+              <div key={shop.id}>
+                <p>name: {shop.name}</p>
+              </div>
+            ))}
         </div>
       </main>
     </>
