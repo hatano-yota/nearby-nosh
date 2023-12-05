@@ -26,10 +26,11 @@ const Home: NextPage = () => {
     void getCurrentLocation();
   }, []);
 
-  const { shops, isLoading, isError } = useShops(lat, lng, range);
+  const { shops, isLoading, isError } = useShops({ lat, lng, range });
 
   if (isError) return <div>Error fetching data</div>;
   if (isLoading) return <div>Loading...</div>;
+  console.log(shops);
 
   return (
     <>
@@ -57,6 +58,8 @@ const Home: NextPage = () => {
             shops.map((shop: Shop) => (
               <div key={shop.id}>
                 <p>name: {shop.name}</p>
+                <p>access: {shop.access}</p>
+                <img src={shop.photo.pc.m} alt="店舗のイメージ" />
               </div>
             ))}
         </div>

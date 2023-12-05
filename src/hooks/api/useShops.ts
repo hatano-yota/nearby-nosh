@@ -2,10 +2,15 @@
 import axios from 'axios';
 import useSWR from 'swr';
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+type Props = {
+  lat: number;
+  lng: number;
+  range: number;
+};
 
-export const useShops = (lat: number, lng: number, range: number) => {
-  const apiUrl = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${process.env.API_KEY}&lat=${lat}&lng=${lng}&range=${range}&format=json`;
+export const useShops = (props: Props) => {
+  const apiUrl = `/api/shops`;
+  const fetcher = (url: string) => axios.get(url, { params: props }).then((res) => res.data);
   const { data, error, isLoading } = useSWR(apiUrl, fetcher);
 
   return {

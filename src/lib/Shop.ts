@@ -1,7 +1,7 @@
 export class Shop {
   id: string;
   name: string;
-  photo: Photo[];
+  photo: Photo;
   access: string;
 
   constructor(data: unknown) {
@@ -16,11 +16,19 @@ export class Shop {
 type ApiResponse = {
   id: string;
   name: string;
-  photo: Photo[];
+  photo: Photo;
   access: string;
 };
 
 export type Photo = {
-  pc: string[];
-  mobile: string[];
+  pc: {
+    l: string;
+    m: string;
+    s: string;
+  };
+  mobile: {
+    l: string;
+    m: string;
+    s: string;
+  };
 };
