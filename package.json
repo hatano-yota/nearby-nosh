@@ -24,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "autoprefixer": "^10.0.1",
     "cspell": "^8.1.0",
+    "daisyui": "^4.4.19",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "eslint-config-prettier": "^9.1.0",
