@@ -3,19 +3,20 @@ import axios from 'axios';
 import useSWR from 'swr';
 
 type Props = {
-  lat: number;
-  lng: number;
+  lat?: number;
+  lng?: number;
   range: number;
 };
 
 export const useShops = (props: Props) => {
+  const { lat, lng } = props;
   const apiUrl = `/api/shops`;
   const fetcher = (url: string) => axios.get(url, { params: props }).then((res) => res.data);
-  const { data, error, isLoading } = useSWR(apiUrl, fetcher);
+  const { data, error, isLoading } = useSWR(lat && lng ? apiUrl : null, fetcher);
 
   return {
     shops: data,
-    isLoading,
+    isSWRLoading: isLoading,
     isError: error,
   };
 };

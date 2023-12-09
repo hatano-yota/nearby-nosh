@@ -2,35 +2,43 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { mutate } from 'swr';
 
 import { useShops } from '@/hooks/api/useShops';
 import { Geolocation } from '@/lib/Geolocation';
 import { Shop } from '@/lib/Shop';
 
 const Home: NextPage = () => {
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
-  const [range, setRange] = useState(4);
+  const [lat, setLat] = useState<number>();
+  const [lng, setLng] = useState<number>();
+  const [range, setRange] = useState(3);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getCurrentLocation = async () => {
     try {
       const position: GeolocationPosition = await Geolocation.getCurrentPosition();
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
+      setIsLoading(false);
     } catch (positionError) {
       alert(positionError);
     }
   };
 
   useEffect(() => {
-    void getCurrentLocation();
+    getCurrentLocation();
   }, []);
 
-  const { shops, isLoading, isError } = useShops({ lat, lng, range });
+  const handleRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRange(Number(e.target.value));
+    void mutate('/api/shops', undefined, { revalidate: true });
+  };
+
+  const { shops, isSWRLoading, isError } = useShops({ lat, lng, range });
 
   if (isError) return <div>Error fetching data</div>;
-  if (isLoading) return <div>Loading...</div>;
-  console.log(shops);
+  if (isSWRLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>位置情報取得中...</div>;
 
   return (
     <>
@@ -44,15 +52,20 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <button onClick={getCurrentLocation}>現在地を取得する</button>
-        <div>
-          <div>
-            <p>Latitude: {lat}</p>
-            <p>Longitude: {lng}</p>
-          </div>
-        </div>
-
-        <button>近くの飲食店を検索する</button>
+        <select
+          defaultValue={3}
+          value={range}
+          onChange={handleRangeChange}
+          className="select w-full max-w-xs"
+        >
+          <option value={1}>300m</option>
+          <option value={2}>500m</option>
+          <option value={3} selected>
+            1000m
+          </option>
+          <option value={4}>2000m</option>
+          <option value={5}>3000m</option>
+        </select>
         <div>
           {shops &&
             shops.map((shop: Shop) => (
