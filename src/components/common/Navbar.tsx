@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { HiMenu, HiOutlineLocationMarker } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { mutate } from 'swr';
@@ -6,12 +7,17 @@ import { locationState } from '@/hooks/atom/location';
 import { Range, rangeState } from '@/hooks/atom/range';
 
 const Navbar = (): JSX.Element => {
+  const router = useRouter();
   const location = useRecoilValue(locationState);
   const [range, setRange] = useRecoilState(rangeState);
 
   const handleRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setRange(Number(e.target.value) as Range);
     void mutate('/api/shops', undefined, { revalidate: true });
+  };
+
+  const onClickHomeButton = () => {
+    void router.push('/');
   };
 
   return (
@@ -21,10 +27,13 @@ const Navbar = (): JSX.Element => {
       </button>
 
       <div className="flex-1">
-        <a href="" className="btn btn-ghost border-transparent bg-transparent text-xl shadow-none">
+        <button
+          onClick={onClickHomeButton}
+          className="btn btn-ghost border-transparent bg-transparent text-xl shadow-none"
+        >
           <span className="font-normal">NEARBY</span>
           <span className="text-h2">NOSH</span>
-        </a>
+        </button>
       </div>
 
       <div className="dropdown dropdown-end mr-4">
