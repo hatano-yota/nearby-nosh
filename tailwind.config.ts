@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -8,13 +8,40 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      fontSize: {
+        h1: [
+          '24px',
+          {
+            lineHeight: '1.5',
+            letterSpacing: '0.05em',
+            fontWeight: 700,
+          },
+        ],
+        h2: [
+          '20px',
+          {
+            lineHeight: '1.5',
+            letterSpacing: '0.025em',
+            fontWeight: 700,
+          },
+        ],
+        h3: [
+          '18px',
+          {
+            lineHeight: '1.5',
+            letterSpacing: '0.025em',
+            fontWeight: 500,
+          },
+        ],
       },
     },
   },
-  plugins: [],
-}
-export default config
+  plugins: [
+    require('daisyui'),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-var-requires
+    require('tailwindcss-scoped-groups')({
+      groups: ['parent'],
+    }),
+  ],
+};
+export default config;
