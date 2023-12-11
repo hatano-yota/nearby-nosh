@@ -11,7 +11,7 @@ const Navbar = (props: Props): JSX.Element => {
   const { lat, lng, range, handleRangeChange } = props;
 
   return (
-    <div className="navbar bg-base-300">
+    <div className="navbar bg-gray-200">
       <button className="btn btn-square border-transparent bg-transparent shadow-none">
         <HiMenu size={20} />
       </button>
@@ -19,7 +19,7 @@ const Navbar = (props: Props): JSX.Element => {
       <div className="flex-1">
         <a href="" className="btn btn-ghost border-transparent bg-transparent text-xl shadow-none">
           <span className="font-normal">NEARBY</span>
-          <span className="font-bold">NOSH</span>
+          <span className="text-h2">NOSH</span>
         </a>
       </div>
 

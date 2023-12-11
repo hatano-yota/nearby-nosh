@@ -4,15 +4,18 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { mutate } from 'swr';
 
-import ShopCard from '@/components/ShopCard';
+import ShopCards from '@/components/ShopCards';
+import ShopsFilter from '@/components/ShopsFilter';
+import Navbar from '@/components/common/Navbar';
 import { useShops } from '@/hooks/api/useShops';
 import { Geolocation } from '@/lib/Geolocation';
-import { Shop } from '@/lib/Shop';
+
+export type Range = 1 | 2 | 3 | 4 | 5;
 
 const Home: NextPage = () => {
   const [lat, setLat] = useState<number>(33.577206);
   const [lng, setLng] = useState<number>(130.257004);
-  const [range, setRange] = useState(3);
+  const [range, setRange] = useState<Range>(3);
   const [isLoading, setIsLoading] = useState(false);
 
   const getCurrentLocation = async () => {
@@ -32,7 +35,7 @@ const Home: NextPage = () => {
   // }, []);
 
   const handleRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRange(Number(e.target.value));
+    setRange(Number(e.target.value) as Range);
     void mutate('/api/shops', undefined, { revalidate: true });
   };
 
@@ -54,20 +57,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <select value={range} onChange={handleRangeChange} className="select w-full max-w-xs">
-          <option value={1}>300m</option>
-          <option value={2}>500m</option>
-          <option value={3}>1000m</option>
-          <option value={4}>2000m</option>
-          <option value={5}>3000m</option>
-        </select>
-        <div className="grid grid-cols-3 gap-5 max-w-5xl">
-          {shops &&
-            shops.map((shop: Shop) => (
-              <div key={shop.id}>
-                <ShopCard shop={shop} />
-              </div>
-            ))}
+        <Navbar lat={lat} lng={lng} range={range} handleRangeChange={handleRangeChange} />
+        <div className="flex justify-between">
+          <div className="mt-8 m-8 w-1/4">
+            <ShopsFilter range={range} />
+          </div>
+          <div className="mt-8 mr-8">
+            <ShopCards shops={shops} />
+          </div>
         </div>
       </main>
     </>

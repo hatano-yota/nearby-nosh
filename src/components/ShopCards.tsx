@@ -11,9 +11,9 @@ const ShopCards = (props: Props): JSX.Element => {
   return (
     <>
       {shops.length != 0 ? (
-        <div className="mt-5 grid max-w-5xl grid-cols-3 gap-5">
+        <div className="mt-5 grid max-w-7xl grid-cols-3 gap-5">
           {shops.map((shop: Shop) => (
-            <div key={shop.id} className="card card-compact w-80 shadow-xl">
+            <div key={shop.id} className="card card-compact w-96 shadow-xl">
               <figure className="relative h-32 w-full">
                 <CommonImage
                   src={shop.photo.pc.l}
