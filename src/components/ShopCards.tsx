@@ -12,7 +12,12 @@ import { rangeState } from '@/hooks/atom/range';
 import { startState } from '@/hooks/atom/start';
 import { Shop } from '@/lib/Shop';
 
-const ShopCards = (): JSX.Element => {
+type Props = {
+  isLoading: boolean;
+};
+
+const ShopCards = (props: Props): JSX.Element => {
+  const { isLoading } = props;
   const location = useRecoilValue(locationState);
   const range = useRecoilValue(rangeState);
   const start = useRecoilValue(startState);
@@ -21,6 +26,13 @@ const ShopCards = (): JSX.Element => {
 
   if (isError) return <div>Error fetching data</div>;
   if (isSWRLoading) return <div>Loading...</div>;
+
+  if (isLoading)
+    return (
+      <div className="flex h-96 items-center justify-center text-h1 text-gray-300">
+        位置情報取得中...
+      </div>
+    );
 
   return (
     <>

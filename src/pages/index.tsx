@@ -33,13 +33,6 @@ const Home: NextPage = () => {
     getCurrentLocation();
   }, []);
 
-  if (isLoading)
-    return (
-      <div className="text-h1 flex justify-center items-center h-96 text-gray-300">
-        位置情報取得中...
-      </div>
-    );
-
   return (
     <>
       <Head>
@@ -51,14 +44,15 @@ const Home: NextPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main>
         <Navbar />
         <div className="flex justify-between">
           <div className="mt-8 m-8 w-1/4">
             <ShopsFilter />
           </div>
-          <div className="mt-8 mr-8">
-            <ShopCards />
+          <div className="mt-8 mr-8 w-3/4">
+            <ShopCards isLoading={isLoading} />
           </div>
         </div>
       </main>
