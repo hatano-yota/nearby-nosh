@@ -5,13 +5,12 @@
 import { useRecoilValue } from 'recoil';
 
 import CommonImage from '@/components/common/CommonImage';
+import Pagination from '@/components/common/Pagination';
 import { useShops } from '@/hooks/api/useShops';
 import { locationState } from '@/hooks/atom/location';
 import { rangeState } from '@/hooks/atom/range';
 import { startState } from '@/hooks/atom/start';
 import { Shop } from '@/lib/Shop';
-
-import Pagination from './Pagination';
 
 const ShopCards = (): JSX.Element => {
   const location = useRecoilValue(locationState);

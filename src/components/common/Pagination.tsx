@@ -37,7 +37,9 @@ const Pagination = (props: Props): JSX.Element => {
           «
         </button>
       )}
-      <button className="btn join-item">{CurrentPageNumber}</button>
+
+      {maxPageNumber > 1 && <button className="btn join-item">{CurrentPageNumber}</button>}
+
       {CurrentPageNumber < maxPageNumber && (
         <button className="btn join-item" onClick={handleNextPage}>
           »

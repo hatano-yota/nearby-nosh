@@ -33,7 +33,12 @@ const Home: NextPage = () => {
     getCurrentLocation();
   }, []);
 
-  if (isLoading) return <div>位置情報取得中...</div>;
+  if (isLoading)
+    return (
+      <div className="text-h1 flex justify-center items-center h-96 text-gray-300">
+        位置情報取得中...
+      </div>
+    );
 
   return (
     <>
