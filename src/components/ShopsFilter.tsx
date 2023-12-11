@@ -1,8 +1,6 @@
-import { Range } from '@/pages/index';
+import { useRecoilValue } from 'recoil';
 
-type Props = {
-  range: Range;
-};
+import { rangeState } from '@/hooks/atom/range';
 
 const rangeMap = {
   1: 300,
@@ -12,8 +10,9 @@ const rangeMap = {
   5: 3000,
 };
 
-const ShopsFilter = (props: Props): JSX.Element => {
-  const { range } = props;
+const ShopsFilter = (): JSX.Element => {
+  const range = useRecoilValue(rangeState);
+
   return (
     <>
       <h1 className="text-h1">

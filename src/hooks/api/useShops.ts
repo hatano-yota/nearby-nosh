@@ -6,6 +6,7 @@ type Props = {
   lat?: number;
   lng?: number;
   range: number;
+  start?: number;
 };
 
 export const useShops = (props: Props) => {
@@ -15,7 +16,7 @@ export const useShops = (props: Props) => {
   const { data, error, isLoading } = useSWR(lat && lng ? apiUrl : null, fetcher);
 
   return {
-    shops: data,
+    data: data,
     isSWRLoading: isLoading,
     isError: error,
   };
