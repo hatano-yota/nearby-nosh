@@ -1,49 +1,44 @@
 /* eslint-disable */
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useState } from 'react';
-import { mutate } from 'swr';
+import { useEffect, useState } from 'react';
 
 import ShopCards from '@/components/ShopCards';
 import ShopsFilter from '@/components/ShopsFilter';
 import Navbar from '@/components/common/Navbar';
-import { useShops } from '@/hooks/api/useShops';
+import { locationState } from '@/hooks/atom/location';
 import { Geolocation } from '@/lib/Geolocation';
-
-export type Range = 1 | 2 | 3 | 4 | 5;
+import { useSetRecoilState } from 'recoil';
 
 const Home: NextPage = () => {
-  const [lat, setLat] = useState<number>(33.577206);
-  const [lng, setLng] = useState<number>(130.257004);
-  const [range, setRange] = useState<Range>(3);
+  const setLocation = useSetRecoilState(locationState);
   const [isLoading, setIsLoading] = useState(false);
 
   const getCurrentLocation = async () => {
     try {
       setIsLoading(true);
       const position: GeolocationPosition = await Geolocation.getCurrentPosition();
-      setLat(position.coords.latitude);
-      setLng(position.coords.longitude);
+
+      setLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
       setIsLoading(false);
     } catch (positionError) {
       alert(positionError);
     }
   };
 
-  // useEffect(() => {
-  //   getCurrentLocation();
-  // }, []);
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
 
-  const handleRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRange(Number(e.target.value) as Range);
-    void mutate('/api/shops', undefined, { revalidate: true });
-  };
-
-  const { shops, isSWRLoading, isError } = useShops({ lat, lng, range });
-
-  if (isError) return <div>Error fetching data</div>;
-  if (isSWRLoading) return <div>Loading...</div>;
-  if (isLoading) return <div>位置情報取得中...</div>;
+  if (isLoading)
+    return (
+      <div className="text-h1 flex justify-center items-center h-96 text-gray-300">
+        位置情報取得中...
+      </div>
+    );
 
   return (
     <>
@@ -57,13 +52,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Navbar lat={lat} lng={lng} range={range} handleRangeChange={handleRangeChange} />
+        <Navbar />
         <div className="flex justify-between">
           <div className="mt-8 m-8 w-1/4">
-            <ShopsFilter range={range} />
+            <ShopsFilter />
           </div>
           <div className="mt-8 mr-8">
-            <ShopCards shops={shops} />
+            <ShopCards />
           </div>
         </div>
       </main>
