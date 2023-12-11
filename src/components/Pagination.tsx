@@ -1,4 +1,7 @@
-import { useRouter } from 'next/router';
+import { useSetRecoilState } from 'recoil';
+import { mutate } from 'swr';
+
+import { startState } from '@/hooks/atom/start';
 
 type Props = {
   totalCount: number;
@@ -8,20 +11,22 @@ type Props = {
 const limit = 12;
 
 const Pagination = (props: Props): JSX.Element => {
-  const router = useRouter();
+  const setStart = useSetRecoilState(startState);
   const { totalCount, resultsStart } = props;
   const maxPageNumber = Math.ceil(totalCount / limit);
   const CurrentPageNumber = (resultsStart - 1) / (limit - 1) + 1;
 
   const handleNextPage = () => {
     if (CurrentPageNumber < maxPageNumber) {
-      const newStart = resultsStart + limit - 1;
+      setStart(resultsStart + limit - 1);
+      void mutate('/api/shops', undefined, { revalidate: true });
     }
   };
 
   const handlePrevPage = () => {
     if (CurrentPageNumber < maxPageNumber) {
-      const newStart = resultsStart - limit + 1;
+      setStart(resultsStart - limit + 1);
+      void mutate('/api/shops', undefined, { revalidate: true });
     }
   };
 
