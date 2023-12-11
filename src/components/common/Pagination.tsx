@@ -24,7 +24,7 @@ const Pagination = (props: Props): JSX.Element => {
   };
 
   const handlePrevPage = () => {
-    if (CurrentPageNumber < maxPageNumber) {
+    if (CurrentPageNumber > 1) {
       setStart(resultsStart - limit + 1);
       void mutate('/api/shops', undefined, { revalidate: true });
     }
