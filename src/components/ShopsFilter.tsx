@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { rangeState } from '@/hooks/atom/range';
 
 type Props = {
+  className?: string;
   totalCount: number;
 };
 
@@ -15,11 +16,11 @@ const rangeMap = {
 };
 
 const ShopsFilter = (props: Props): JSX.Element => {
-  const { totalCount = 0 } = props;
+  const { className, totalCount = 0 } = props;
   const range = useRecoilValue(rangeState);
 
   return (
-    <>
+    <div className={className}>
       <h1 className="text-h1">
         &quot;{rangeMap[range]} m&quot; 以内の
         <br />
@@ -28,7 +29,7 @@ const ShopsFilter = (props: Props): JSX.Element => {
       <h2 className="mt-8 text-h2">{totalCount} 件の結果</h2>
       <h2 className="mt-8 text-h2">並べ替え</h2>
       <h2 className="mt-8 text-h2">絞り込み</h2>
-    </>
+    </div>
   );
 };
 
