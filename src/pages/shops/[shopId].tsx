@@ -10,7 +10,7 @@ import { useShop } from '@/hooks/api/useShop';
 
 const ShopDetail: NextPage = () => {
   const router = useRouter();
-  const shopId = router.query.id as string;
+  const shopId = router.query.shopId as string;
   const { data, isSWRLoading, isError } = useShop({ shopId });
 
   if (isError) return <div>Error fetching data</div>;
