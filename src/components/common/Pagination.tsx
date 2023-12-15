@@ -14,18 +14,18 @@ const Pagination = (props: Props): JSX.Element => {
   const setStart = useSetRecoilState(startState);
   const { totalCount, resultsStart } = props;
   const maxPageNumber = Math.ceil(totalCount / limit);
-  const CurrentPageNumber = (resultsStart - 1) / (limit - 1) + 1;
+  const CurrentPageNumber = Math.floor(resultsStart - 1 / limit + 1);
 
   const handleNextPage = () => {
     if (CurrentPageNumber < maxPageNumber) {
-      setStart(resultsStart + limit - 1);
+      setStart(resultsStart + limit);
       void mutate('/api/shops', undefined, { revalidate: true });
     }
   };
 
   const handlePrevPage = () => {
     if (CurrentPageNumber > 1) {
-      setStart(resultsStart - limit + 1);
+      setStart(resultsStart - limit);
       void mutate('/api/shops', undefined, { revalidate: true });
     }
   };
