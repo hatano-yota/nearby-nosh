@@ -1,24 +1,9 @@
-import { useRouter } from 'next/router';
 import { HiMenu, HiOutlineLocationMarker } from 'react-icons/hi';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { mutate } from 'swr';
 
-import { locationState } from '@/hooks/atom/location';
-import { Range, rangeState } from '@/hooks/atom/range';
+import { useNavbar } from '@/hooks/common/useNavbar';
 
 const Navbar = (): JSX.Element => {
-  const router = useRouter();
-  const location = useRecoilValue(locationState);
-  const [range, setRange] = useRecoilState(rangeState);
-
-  const handleRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRange(Number(e.target.value) as Range);
-    void mutate('/api/shops', undefined, { revalidate: true });
-  };
-
-  const onClickHomeButton = () => {
-    void router.push('/');
-  };
+  const { range, location, handleRangeChange, onClickHomeButton } = useNavbar();
 
   return (
     <div className="navbar bg-gray-200">

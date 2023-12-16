@@ -59,14 +59,10 @@ const Home: NextPage = () => {
       <main>
         <Navbar />
         <div className="flex justify-between">
-          <div className="mt-8 m-8 w-1/4">
-            <ShopsFilter totalCount={data?.totalCount} />
-          </div>
+          <ShopsFilter className="mt-8 m-8 w-1/4" totalCount={data?.totalCount} />
           <div className="mt-8 mr-8 w-3/4">
             <ShopCards shops={data?.shops} isLoading={isLoading} />
-            <div className="flex w-full justify-center">
-              <Pagination totalCount={data?.totalCount} resultsStart={data?.resultsStart} />
-            </div>
+            <Pagination totalCount={data?.totalCount} resultsStart={data?.resultsStart} />
           </div>
         </div>
       </main>
