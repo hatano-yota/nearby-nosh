@@ -8,7 +8,7 @@ import ShopsFilter from '@/components/ShopsFilter';
 import Navbar from '@/components/common/Navbar';
 import Pagination from '@/components/common/Pagination';
 import { useShops } from '@/hooks/api/useShops';
-import { locationState } from '@/hooks/atom/location';
+import { Location, locationState } from '@/hooks/atom/location';
 import { rangeState } from '@/hooks/atom/range';
 import { startState } from '@/hooks/atom/start';
 import { Geolocation } from '@/lib/Geolocation';
@@ -36,13 +36,24 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
+    const savedLocation = getLocationFromLocalStorage();
+    if (savedLocation) setLocation(savedLocation);
     getCurrentLocation();
+    saveLocationToLocalStorage(location);
   }, []);
 
-  const { data, isSWRLoading, isError } = useShops({ ...location, range, start });
+  // 位置情報をローカルストレージに保存
+  const saveLocationToLocalStorage = (location: Location) => {
+    localStorage?.setItem('userLocation', JSON.stringify(location));
+  };
 
-  if (isError) return <div>Error fetching data</div>;
-  if (isSWRLoading) return <div>Loading...</div>;
+  // ローカルストレージから位置情報を取得
+  const getLocationFromLocalStorage = (): Location | null => {
+    const location = localStorage?.getItem('userLocation');
+    return location ? (JSON.parse(location) as Location) : null;
+  };
+
+  const { data, isSWRLoading, isError } = useShops({ ...location, range, start });
 
   return (
     <>
@@ -61,7 +72,12 @@ const Home: NextPage = () => {
         <div className="flex justify-between">
           <ShopsFilter className="mt-8 m-8 w-1/4" totalCount={data?.totalCount} />
           <div className="mt-8 mr-8 w-3/4">
-            <ShopCards shops={data?.shops} isLoading={isLoading} />
+            <ShopCards
+              shops={data?.shops}
+              isLoading={isLoading}
+              isSWRLoading={isSWRLoading}
+              isError={isError}
+            />
             <Pagination totalCount={data?.totalCount} resultsStart={data?.resultsStart} />
           </div>
         </div>
