@@ -8,10 +8,12 @@ import { Shop } from '@/lib/Shop';
 type Props = {
   shops: Shop[];
   isLoading: boolean;
+  isSWRLoading: boolean;
+  isError: boolean;
 };
 
 const ShopCards = (props: Props): JSX.Element => {
-  const { shops, isLoading } = props;
+  const { shops, isLoading, isSWRLoading, isError } = props;
 
   return (
     <>
@@ -19,6 +21,10 @@ const ShopCards = (props: Props): JSX.Element => {
         <div className="flex h-96 items-center justify-center text-h1 text-gray-300">
           位置情報取得中...
         </div>
+      ) : isSWRLoading ? (
+        <div>Loading...</div>
+      ) : isError ? (
+        <div>Error fetching data</div>
       ) : shops && shops.length > 0 ? (
         <div className="mt-5 grid max-w-7xl grid-cols-3 gap-5">
           {shops.map((shop: Shop) => (
