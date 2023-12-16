@@ -1,25 +1,9 @@
-import { useRouter } from 'next/router';
 import { HiMenu, HiOutlineLocationMarker } from 'react-icons/hi';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { locationState } from '@/hooks/atom/location';
-import { Range, rangeState } from '@/hooks/atom/range';
-import { startState } from '@/hooks/atom/start';
+import { useNavbar } from '@/hooks/common/useNavbar';
 
 const Navbar = (): JSX.Element => {
-  const router = useRouter();
-  const location = useRecoilValue(locationState);
-  const [range, setRange] = useRecoilState(rangeState);
-  const setStart = useSetRecoilState(startState);
-
-  const handleRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRange(Number(e.target.value) as Range);
-    setStart(1);
-  };
-
-  const onClickHomeButton = () => {
-    void router.push('/');
-  };
+  const { range, location, handleRangeChange, onClickHomeButton } = useNavbar();
 
   return (
     <div className="navbar bg-gray-200">
