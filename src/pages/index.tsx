@@ -36,13 +36,21 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
+    const savedLocation = getLocationFromLocalStorage();
+    if (savedLocation) setLocation(savedLocation);
     getCurrentLocation();
     saveLocationToLocalStorage(location);
   }, []);
 
   // 位置情報をローカルストレージに保存
   const saveLocationToLocalStorage = (location: Location) => {
-    localStorage.setItem('userLocation', JSON.stringify(location));
+    localStorage?.setItem('userLocation', JSON.stringify(location));
+  };
+
+  // ローカルストレージから位置情報を取得
+  const getLocationFromLocalStorage = (): Location | null => {
+    const location = localStorage?.getItem('userLocation');
+    return location ? (JSON.parse(location) as Location) : null;
   };
 
   const { data, isSWRLoading, isError } = useShops({ ...location, range, start });
