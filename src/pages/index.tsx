@@ -18,18 +18,15 @@ const Home: NextPage = () => {
   const range = useRecoilValue(rangeState);
   const start = useRecoilValue(startState);
   const [location, setLocation] = useRecoilState(locationState);
-  const [isLoading, setIsLoading] = useState(false);
 
   const getCurrentLocation = async () => {
     try {
-      setIsLoading(true);
       const position: GeolocationPosition = await Geolocation.getCurrentPosition();
 
       setLocation({
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       });
-      setIsLoading(false);
     } catch (positionError) {
       alert(positionError);
     }
@@ -72,12 +69,7 @@ const Home: NextPage = () => {
         <div className="flex justify-between">
           <ShopsFilter className="mt-8 m-8 w-1/4" totalCount={data?.totalCount} />
           <div className="mt-8 mr-8 w-3/4">
-            <ShopCards
-              shops={data?.shops}
-              isLoading={isLoading}
-              isSWRLoading={isSWRLoading}
-              isError={isError}
-            />
+            <ShopCards shops={data?.shops} isSWRLoading={isSWRLoading} isError={isError} />
             <Pagination totalCount={data?.totalCount} resultsStart={data?.resultsStart} />
           </div>
         </div>
