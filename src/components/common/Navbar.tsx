@@ -1,9 +1,15 @@
 import { HiMenu, HiOutlineLocationMarker } from 'react-icons/hi';
 
 import { useNavbar } from '@/hooks/common/useNavbar';
+import { Location } from '@/lib/Geolocation';
 
-const Navbar = (): JSX.Element => {
-  const { range, location, handleRangeChange, onClickHomeButton } = useNavbar();
+type Props = {
+  location: Location;
+};
+
+const Navbar = (props: Props): JSX.Element => {
+  const { location } = props;
+  const { range, handleRangeChange, onClickHomeButton } = useNavbar();
 
   return (
     <div className="navbar bg-gray-200">

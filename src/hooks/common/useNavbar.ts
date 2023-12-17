@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { Location, locationState } from '@/hooks/atom/location';
 import { Range, rangeState } from '@/hooks/atom/range';
 import { startState } from '@/hooks/atom/start';
 
 type UseNavbarReturn = {
   range: number;
-  location: Location;
   handleRangeChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   onClickHomeButton: () => void;
 };
@@ -15,7 +13,6 @@ type UseNavbarReturn = {
 export const useNavbar = (): UseNavbarReturn => {
   const router = useRouter();
   const [range, setRange] = useRecoilState(rangeState);
-  const location = useRecoilValue(locationState);
   const setStart = useSetRecoilState(startState);
 
   const handleRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -29,7 +26,6 @@ export const useNavbar = (): UseNavbarReturn => {
 
   return {
     range,
-    location,
     handleRangeChange,
     onClickHomeButton,
   };

@@ -8,16 +8,15 @@ import ShopsFilter from '@/components/ShopsFilter';
 import Navbar from '@/components/common/Navbar';
 import Pagination from '@/components/common/Pagination';
 import { useShops } from '@/hooks/api/useShops';
-import { Location, locationState } from '@/hooks/atom/location';
 import { rangeState } from '@/hooks/atom/range';
 import { startState } from '@/hooks/atom/start';
-import { Geolocation } from '@/lib/Geolocation';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { Geolocation, Location } from '@/lib/Geolocation';
+import { useRecoilValue } from 'recoil';
 
 const Home: NextPage = () => {
   const range = useRecoilValue(rangeState);
   const start = useRecoilValue(startState);
-  const [location, setLocation] = useRecoilState(locationState);
+  const [location, setLocation] = useState<Location>({});
 
   const getCurrentLocation = async () => {
     try {
@@ -65,7 +64,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Navbar />
+        <Navbar location={location} />
         <div className="flex justify-between">
           <ShopsFilter className="mt-8 m-8 w-1/4" totalCount={data?.totalCount} />
           <div className="mt-8 mr-8 w-3/4">
