@@ -3,7 +3,8 @@ import { HiMenu, HiOutlineLocationMarker } from 'react-icons/hi';
 import { useNavbar } from '@/hooks/common/useNavbar';
 
 const Navbar = (): JSX.Element => {
-  const { range, location, handleRangeChange, onClickHomeButton } = useNavbar();
+  const { keyword, range, location, handleChangeKeyword, handleRangeChange, onClickHomeButton } =
+    useNavbar();
 
   return (
     <div className="navbar bg-gray-200">
@@ -52,7 +53,13 @@ const Navbar = (): JSX.Element => {
       </div>
 
       <div className="form-control mr-8">
-        <input type="text" placeholder="Search" className="input input-bordered w-96" />
+        <input
+          type="text"
+          value={keyword}
+          onChange={(e) => handleChangeKeyword(e)}
+          placeholder="店名やジャンルを指定する "
+          className="input input-bordered w-96"
+        />
       </div>
     </div>
   );

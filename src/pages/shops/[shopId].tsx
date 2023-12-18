@@ -6,12 +6,12 @@ import { useRouter } from 'next/router';
 
 import CommonImage from '@/components/common/CommonImage';
 import Navbar from '@/components/common/Navbar';
-import { useShop } from '@/hooks/api/useShop';
+import { useShopGet } from '@/hooks/api/useShopGet';
 
 const ShopDetail: NextPage = () => {
   const router = useRouter();
   const shopId = router.query.shopId as string;
-  const { data, isSWRLoading, isError } = useShop({ shopId });
+  const { data, isSWRLoading, isError } = useShopGet({ shopId });
 
   const infoRows = [
     { title: '住所', content: data?.address },

@@ -6,7 +6,7 @@ type Props = {
   shopId: string;
 };
 
-export const useShop = (props: Props) => {
+export const useShopGet = (props: Props) => {
   const { shopId } = props;
   const apiUrl = `/api/shops/${shopId}`;
   const fetcher = (url: string) => axios.get(url, { params: props }).then((res) => res.data);
