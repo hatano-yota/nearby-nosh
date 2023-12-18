@@ -3,8 +3,8 @@ import axios from 'axios';
 import useSWR from 'swr';
 
 type Props = {
-  lat?: number;
-  lng?: number;
+  lat: number;
+  lng: number;
   range: number;
   start: number;
   keyword?: string;
@@ -25,7 +25,7 @@ export const useShopsGet = (props: Props) => {
 };
 
 const createApiUrl = (baseApiUrl: string, params: Props) => {
-  if (!params.lat || !params.lng) return null;
+  if (params.lat == 0 && params.lng == 0) return null;
 
   const queryParams = new URLSearchParams();
 

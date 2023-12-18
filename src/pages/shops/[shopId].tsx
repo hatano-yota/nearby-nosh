@@ -1,17 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import { APIProvider } from '@vis.gl/react-google-maps';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
 
 import CommonImage from '@/components/common/CommonImage';
 import Navbar from '@/components/common/Navbar';
+import RouteMap from '@/components/common/RouteMap';
 import { useShopGet } from '@/hooks/api/useShopGet';
+import { locationState } from '@/hooks/atom/location';
 
 const ShopDetail: NextPage = () => {
   const router = useRouter();
   const shopId = router.query.shopId as string;
+  const location = useRecoilValue(locationState);
   const { data, isSWRLoading, isError } = useShopGet({ shopId });
+  const apiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY ?? 'apiKey is not defined';
 
   const infoRows = [
     { title: '住所', content: data?.address },
@@ -35,7 +41,11 @@ const ShopDetail: NextPage = () => {
           <figure className="relative h-80 w-1/3">
             <CommonImage src={data.photo.pc.l} alt="店舗のイメージ" className="object-cover" fill />
           </figure>
-          <div className="flex w-2/3 items-center justify-center text-h1">Map</div>
+          <div className="w-2/3">
+            <APIProvider apiKey={apiKey}>
+              <RouteMap currentLocation={location} shopLocation={data.shopLocation} />
+            </APIProvider>
+          </div>
         </div>
 
         {infoRows.map((row, index) => (
