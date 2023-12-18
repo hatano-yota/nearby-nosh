@@ -1,5 +1,6 @@
 import { HiMenu, HiOutlineLocationMarker } from 'react-icons/hi';
 
+import CommonMap from '@/components/common/CommonMap';
 import { useNavbar } from '@/hooks/common/useNavbar';
 
 const Navbar = (): JSX.Element => {
@@ -28,15 +29,14 @@ const Navbar = (): JSX.Element => {
         </div>
         <div
           tabIndex={0}
-          className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-base-100 shadow"
+          className="card dropdown-content card-compact z-[1] mt-3 w-96 bg-base-100 shadow"
         >
           <div className="card-body">
             <span className="text-lg font-bold">現在地</span>
             <span className="text-info">緯度: {location.lat}</span>
             <span className="text-info">経度: {location.lng}</span>
             <div className="card-actions">
-              {/* TODO: Map or Google Mapへのリンクを表示する */}
-              <button className="btn btn-primary btn-block">Map</button>
+              <CommonMap className="h-80 w-96 rounded" position={location} />
             </div>
           </div>
         </div>
