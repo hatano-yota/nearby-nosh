@@ -8,7 +8,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<any> => {
-  const { lat, lng, range, start = 1 } = req.query;
+  const { lat, lng, range, start = 1, keyword } = req.query;
   const apiUrl = 'https://webservice.recruit.co.jp/hotpepper/gourmet/v1/';
 
   try {
@@ -18,6 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<any> 
       lng,
       range,
       start,
+      keyword,
       count: 12,
       format: 'json',
     };
