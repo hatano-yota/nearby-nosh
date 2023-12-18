@@ -1,3 +1,5 @@
+import { Location } from '@/hooks/atom/location';
+
 export class Shop {
   id: string;
   name: string;
@@ -9,6 +11,7 @@ export class Shop {
   access: string;
   couponUrls: CouponUrls;
   urls: Urls;
+  shopLocation: Location;
 
   constructor(data: unknown) {
     const {
@@ -22,6 +25,8 @@ export class Shop {
       access,
       coupon_urls,
       urls,
+      lat,
+      lng,
     } = data as ApiResponse;
 
     this.id = id;
@@ -34,6 +39,7 @@ export class Shop {
     this.access = access;
     this.couponUrls = coupon_urls;
     this.urls = urls;
+    this.shopLocation = { lat, lng };
   }
 }
 
@@ -48,6 +54,8 @@ type ApiResponse = {
   access: string;
   coupon_urls: CouponUrls;
   urls: Urls;
+  lat: number;
+  lng: number;
 };
 
 export type Photo = {
