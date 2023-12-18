@@ -1,55 +1,14 @@
-/* eslint-disable */
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
 
-import ShopCards from '@/components/ShopCards';
-import ShopsFilter from '@/components/ShopsFilter';
 import Navbar from '@/components/common/Navbar';
 import Pagination from '@/components/common/Pagination';
-import { useShops } from '@/hooks/api/useShops';
-import { rangeState } from '@/hooks/atom/range';
-import { startState } from '@/hooks/atom/start';
-import { Geolocation, Location } from '@/lib/Geolocation';
-import { useRecoilValue } from 'recoil';
+import ShopCards from '@/components/ShopCards';
+import ShopsFilter from '@/components/ShopsFilter';
+import { useShops } from '@/hooks/useShops';
 
-const Home: NextPage = () => {
-  const range = useRecoilValue(rangeState);
-  const start = useRecoilValue(startState);
-  const [location, setLocation] = useState<Location>({});
-
-  const getCurrentLocation = async () => {
-    try {
-      const position: GeolocationPosition = await Geolocation.getCurrentPosition();
-
-      setLocation({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      });
-    } catch (positionError) {
-      alert(positionError);
-    }
-  };
-
-  useEffect(() => {
-    const savedLocation = getLocationFromLocalStorage();
-    if (savedLocation) setLocation(savedLocation);
-    getCurrentLocation();
-    saveLocationToLocalStorage(location);
-  }, []);
-
-  // 位置情報をローカルストレージに保存
-  const saveLocationToLocalStorage = (location: Location) => {
-    localStorage?.setItem('userLocation', JSON.stringify(location));
-  };
-
-  // ローカルストレージから位置情報を取得
-  const getLocationFromLocalStorage = (): Location | null => {
-    const location = localStorage?.getItem('userLocation');
-    return location ? (JSON.parse(location) as Location) : null;
-  };
-
-  const { data, isSWRLoading, isError } = useShops({ ...location, range, start });
+const Shops: NextPage = () => {
+  const { shops, totalCount, resultsStart, isSWRLoading, error } = useShops();
 
   return (
     <>
@@ -64,12 +23,12 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Navbar location={location} />
+        <Navbar />
         <div className="flex justify-between">
-          <ShopsFilter className="mt-8 m-8 w-1/4" totalCount={data?.totalCount} />
-          <div className="mt-8 mr-8 w-3/4">
-            <ShopCards shops={data?.shops} isSWRLoading={isSWRLoading} isError={isError} />
-            <Pagination totalCount={data?.totalCount} resultsStart={data?.resultsStart} />
+          <ShopsFilter className="m-8 w-1/4" totalCount={totalCount} />
+          <div className="mr-8 mt-8 w-3/4">
+            <ShopCards shops={shops} isSWRLoading={isSWRLoading} error={error} />
+            <Pagination totalCount={totalCount} resultsStart={resultsStart} />
           </div>
         </div>
       </main>
@@ -77,4 +36,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Shops;

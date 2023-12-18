@@ -8,11 +8,11 @@ import { Shop } from '@/lib/Shop';
 type Props = {
   shops: Shop[];
   isSWRLoading: boolean;
-  isError: boolean;
+  error: unknown;
 };
 
 const ShopCards = (props: Props): JSX.Element => {
-  const { shops, isSWRLoading, isError } = props;
+  const { shops, isSWRLoading, error } = props;
 
   return (
     <>
@@ -30,7 +30,7 @@ const ShopCards = (props: Props): JSX.Element => {
         </div>
       ) : isSWRLoading ? (
         <div>Loading...</div>
-      ) : isError ? (
+      ) : error ? (
         <div>Error fetching data</div>
       ) : (
         <div className="flex h-96 items-center justify-center text-h1 text-gray-300">
