@@ -25,8 +25,8 @@ const Navbar = (): JSX.Element => {
           onClick={onClickHomeButton}
           className="btn btn-ghost border-transparent bg-transparent text-xl shadow-none"
         >
-          <span className="font-normal">NEARBY</span>
-          <span className="text-h2">NOSH</span>
+          <span className="text-h2">NEARBY</span>
+          <span className="text-h2 font-bold">NOSH</span>
         </button>
       </div>
 

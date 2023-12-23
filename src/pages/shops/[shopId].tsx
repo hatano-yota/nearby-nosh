@@ -39,7 +39,7 @@ const ShopDetail: NextPage = () => {
         <div className="mx-auto mt-5 max-w-5xl">
           <h1 className="text-h1">{data.name}</h1>
           <h3 className="mt-3 text-h2">{data.catchText}</h3>
-          <div className="mt-3 flex">
+          <div className="mt-4 flex">
             <figure className="relative h-80 w-1/3">
               <CommonImage
                 src={data.photo.pc.l}
@@ -76,7 +76,7 @@ const InfoRow = (props: InfoRowProps): JSX.Element => {
   const { title, content, isLink = false } = props;
 
   return (
-    <div className="mt-4 flex justify-start border-b border-gray-300 py-2 text-h3">
+    <div className="mt-4 flex justify-start border-b border-gray-300 py-2 text-h2">
       <dt className="w-28">{title}</dt>
       <dd>
         {isLink ? (
