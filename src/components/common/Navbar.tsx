@@ -15,7 +15,7 @@ const Navbar = (): JSX.Element => {
   } = useNavbar();
 
   return (
-    <div className="navbar bg-gray-200">
+    <div className="navbar bg-[#ffeed6]">
       <button className="btn btn-square border-transparent bg-transparent shadow-none">
         <HiMenu size={20} />
       </button>
