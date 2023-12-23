@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { keywordState } from '@/hooks/atom/keyword';
@@ -7,23 +8,31 @@ import { Range, rangeState } from '@/hooks/atom/range';
 import { startState } from '@/hooks/atom/start';
 
 type UseNavbarReturn = {
-  keyword: string;
+  inputText: string;
   range: number;
   location: Location;
-  handleChangeKeyword: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onPressEnterKey: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   handleRangeChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   onClickHomeButton: () => void;
 };
 
 export const useNavbar = (): UseNavbarReturn => {
   const router = useRouter();
-  const [keyword, setKeyword] = useRecoilState(keywordState);
+  const [inputText, setInputText] = useState('');
   const [range, setRange] = useRecoilState(rangeState);
   const location = useRecoilValue(locationState);
+  const setKeyword = useSetRecoilState(keywordState);
   const setStart = useSetRecoilState(startState);
 
-  const handleChangeKeyword: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setKeyword(e.target.value);
+  const handleChangeInput: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setInputText(e.target.value);
+  };
+
+  const onPressEnterKey: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter') {
+      setKeyword(inputText);
+    }
   };
 
   const handleRangeChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
@@ -36,10 +45,11 @@ export const useNavbar = (): UseNavbarReturn => {
   };
 
   return {
-    keyword,
+    inputText,
     range,
     location,
-    handleChangeKeyword,
+    handleChangeInput,
+    onPressEnterKey,
     handleRangeChange,
     onClickHomeButton,
   };
