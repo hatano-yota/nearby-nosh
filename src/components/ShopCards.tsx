@@ -23,17 +23,15 @@ const ShopCards = (props: Props): JSX.Element => {
           ))}
         </div>
       ) : shops && shops.length == 0 ? (
-        <div className="flex h-96 items-center justify-center">
-          <p className="tracking-widest text-gray-400">
-            条件に合致する飲食店は見つかりませんでした
-          </p>
+        <div className="flex h-96 items-center justify-center tracking-widest text-gray-400">
+          条件に合致する飲食店は見つかりませんでした
         </div>
       ) : isSWRLoading ? (
         <div>Loading...</div>
       ) : error ? (
         <div>Error fetching data</div>
       ) : (
-        <div className="flex h-96 items-center justify-center text-h1 text-gray-300">
+        <div className="flex h-96 items-center justify-center text-h1 text-gray-400">
           位置情報取得中...
         </div>
       )}

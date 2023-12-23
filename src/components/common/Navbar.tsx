@@ -4,11 +4,18 @@ import CommonMap from '@/components/common/CommonMap';
 import { useNavbar } from '@/hooks/common/useNavbar';
 
 const Navbar = (): JSX.Element => {
-  const { keyword, range, location, handleChangeKeyword, handleRangeChange, onClickHomeButton } =
-    useNavbar();
+  const {
+    inputText,
+    range,
+    location,
+    handleChangeInput,
+    onPressEnterKey,
+    handleRangeChange,
+    onClickHomeButton,
+  } = useNavbar();
 
   return (
-    <div className="navbar bg-gray-200">
+    <div className="navbar bg-[#ffeed6]">
       <button className="btn btn-square border-transparent bg-transparent shadow-none">
         <HiMenu size={20} />
       </button>
@@ -18,8 +25,8 @@ const Navbar = (): JSX.Element => {
           onClick={onClickHomeButton}
           className="btn btn-ghost border-transparent bg-transparent text-xl shadow-none"
         >
-          <span className="font-normal">NEARBY</span>
-          <span className="text-h2">NOSH</span>
+          <span className="text-h2">NEARBY</span>
+          <span className="text-h2 font-bold">NOSH</span>
         </button>
       </div>
 
@@ -55,8 +62,9 @@ const Navbar = (): JSX.Element => {
       <div className="form-control mr-8">
         <input
           type="text"
-          value={keyword}
-          onChange={(e) => handleChangeKeyword(e)}
+          value={inputText}
+          onChange={(e) => handleChangeInput(e)}
+          onKeyDown={(e) => onPressEnterKey(e)}
           placeholder="店名やジャンルを指定する "
           className="input input-bordered w-96"
         />
