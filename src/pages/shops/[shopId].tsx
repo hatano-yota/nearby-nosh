@@ -16,7 +16,7 @@ const ShopDetail: NextPage = () => {
   const router = useRouter();
   const shopId = router.query.shopId as string;
   const location = useRecoilValue(locationState);
-  const { data, isSWRLoading, isError } = useShopGet({ shopId });
+  const { data, isSWRLoading, error } = useShopGet({ shopId });
   const apiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY ?? 'apiKey is not defined';
 
   const infoRows = [
@@ -27,31 +27,39 @@ const ShopDetail: NextPage = () => {
     { title: '予約', content: data?.urls.pc, isLink: true },
   ];
 
-  if (isError) return <div>Error fetching data</div>;
-  if (isSWRLoading) return <div>Loading...</div>;
-
   return (
     <>
       <Navbar />
 
-      <div className="mx-auto mt-5 max-w-5xl">
-        <h1 className="text-h1">{data.name}</h1>
-        <h3 className="mt-3 text-h2">{data.catchText}</h3>
-        <div className="mt-3 flex">
-          <figure className="relative h-80 w-1/3">
-            <CommonImage src={data.photo.pc.l} alt="店舗のイメージ" className="object-cover" fill />
-          </figure>
-          <div className="w-2/3">
-            <APIProvider apiKey={apiKey}>
-              <RouteMap currentLocation={location} shopLocation={data.shopLocation} />
-            </APIProvider>
+      {isSWRLoading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error fetching data</div>
+      ) : (
+        <div className="mx-auto mt-5 max-w-5xl">
+          <h1 className="text-h1">{data.name}</h1>
+          <h3 className="mt-3 text-h2">{data.catchText}</h3>
+          <div className="mt-3 flex">
+            <figure className="relative h-80 w-1/3">
+              <CommonImage
+                src={data.photo.pc.l}
+                alt="店舗のイメージ"
+                className="object-cover"
+                fill
+              />
+            </figure>
+            <div className="w-2/3">
+              <APIProvider apiKey={apiKey}>
+                <RouteMap currentLocation={location} shopLocation={data.shopLocation} />
+              </APIProvider>
+            </div>
           </div>
-        </div>
 
-        {infoRows.map((row, index) => (
-          <InfoRow key={index} {...row} />
-        ))}
-      </div>
+          {infoRows.map((row, index) => (
+            <InfoRow key={index} {...row} />
+          ))}
+        </div>
+      )}
     </>
   );
 };

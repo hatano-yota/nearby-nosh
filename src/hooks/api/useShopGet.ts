@@ -15,6 +15,6 @@ export const useShopGet = (props: Props) => {
   return {
     data: data,
     isSWRLoading: isLoading,
-    isError: error,
+    error,
   };
 };
