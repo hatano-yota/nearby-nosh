@@ -6,6 +6,7 @@ import { keywordState } from '@/hooks/atom/keyword';
 import { Location, locationState } from '@/hooks/atom/location';
 import { Range, rangeState } from '@/hooks/atom/range';
 import { startState } from '@/hooks/atom/start';
+import { ROUTES } from '@/lib/data/routes';
 
 type UseNavbarReturn = {
   inputText: string;
@@ -41,7 +42,7 @@ export const useNavbar = (): UseNavbarReturn => {
   };
 
   const onClickHomeButton = () => {
-    void router.push('/');
+    void router.push(ROUTES.HOME);
   };
 
   return {
