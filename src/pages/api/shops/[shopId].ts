@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<any> 
 
   try {
     const query = {
-      key: process.env.API_KEY,
+      key: process.env.HOT_PEPPER_API_KEY,
       id: shopId,
       format: 'json',
     };
