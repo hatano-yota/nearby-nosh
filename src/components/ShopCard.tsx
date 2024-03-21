@@ -12,7 +12,7 @@ const ShopCard = (props: Props): JSX.Element => {
   const { onClickShopCard } = useShopCard(props);
 
   return (
-    <div onClick={onClickShopCard} className="card card-compact w-96 shadow-xl">
+    <div onClick={onClickShopCard} className="card card-compact w-96 cursor-pointer shadow-xl">
       <figure className="relative h-32 w-full">
         <CommonImage src={shop.photo.pc.l} alt="店舗のイメージ" className="object-cover" fill />
       </figure>

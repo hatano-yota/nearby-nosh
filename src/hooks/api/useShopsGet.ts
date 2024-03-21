@@ -3,13 +3,14 @@ import axios from 'axios';
 import useSWR from 'swr';
 
 type Props = {
-  lat?: number;
-  lng?: number;
+  lat: number;
+  lng: number;
   range: number;
   start: number;
+  keyword?: string;
 };
 
-export const useShops = (props: Props) => {
+export const useShopsGet = (props: Props) => {
   const baseApiUrl = `/api/shops`;
   const apiUrl = createApiUrl(baseApiUrl, props);
 
@@ -19,12 +20,12 @@ export const useShops = (props: Props) => {
   return {
     data: data,
     isSWRLoading: isLoading,
-    isError: error,
+    error: error,
   };
 };
 
 const createApiUrl = (baseApiUrl: string, params: Props) => {
-  if (!params.lat || !params.lng) return null;
+  if (params.lat == 0 && params.lng == 0) return null;
 
   const queryParams = new URLSearchParams();
 

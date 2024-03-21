@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        ja: ['Zen\\ Maru\\ Gothic', 'Inter', 'Noto\\ Sans\\ JP'],
+      },
       fontSize: {
         h1: [
           '24px',
@@ -22,7 +25,7 @@ const config: Config = {
           {
             lineHeight: '1.5',
             letterSpacing: '0.025em',
-            fontWeight: 700,
+            fontWeight: 500,
           },
         ],
         h3: [
@@ -30,7 +33,7 @@ const config: Config = {
           {
             lineHeight: '1.5',
             letterSpacing: '0.025em',
-            fontWeight: 500,
+            fontWeight: 300,
           },
         ],
       },

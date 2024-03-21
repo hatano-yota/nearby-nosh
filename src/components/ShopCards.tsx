@@ -7,29 +7,32 @@ import { Shop } from '@/lib/Shop';
 
 type Props = {
   shops: Shop[];
-  isLoading: boolean;
+  isSWRLoading: boolean;
+  error: unknown;
 };
 
 const ShopCards = (props: Props): JSX.Element => {
-  const { shops, isLoading } = props;
+  const { shops, isSWRLoading, error } = props;
 
   return (
     <>
-      {isLoading ? (
-        <div className="flex h-96 items-center justify-center text-h1 text-gray-300">
-          位置情報取得中...
-        </div>
-      ) : shops && shops.length > 0 ? (
+      {shops && shops.length > 0 ? (
         <div className="mt-5 grid max-w-7xl grid-cols-3 gap-5">
           {shops.map((shop: Shop) => (
             <ShopCard key={shop.id} shop={shop} />
           ))}
         </div>
+      ) : shops && shops.length == 0 ? (
+        <div className="flex h-96 items-center justify-center tracking-widest text-gray-400">
+          条件に合致する飲食店は見つかりませんでした
+        </div>
+      ) : isSWRLoading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error fetching data</div>
       ) : (
-        <div className="flex h-96 items-center justify-center">
-          <p className="tracking-widest text-gray-400">
-            条件に合致する飲食店は見つかりませんでした
-          </p>
+        <div className="flex h-96 items-center justify-center text-h1 text-gray-400">
+          位置情報取得中...
         </div>
       )}
     </>

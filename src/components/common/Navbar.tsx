@@ -1,12 +1,21 @@
 import { HiMenu, HiOutlineLocationMarker } from 'react-icons/hi';
 
+import CommonMap from '@/components/common/CommonMap';
 import { useNavbar } from '@/hooks/common/useNavbar';
 
 const Navbar = (): JSX.Element => {
-  const { range, location, handleRangeChange, onClickHomeButton } = useNavbar();
+  const {
+    inputText,
+    range,
+    location,
+    handleChangeInput,
+    onPressEnterKey,
+    handleRangeChange,
+    onClickHomeButton,
+  } = useNavbar();
 
   return (
-    <div className="navbar bg-gray-200">
+    <div className="navbar bg-[#ffeed6]">
       <button className="btn btn-square border-transparent bg-transparent shadow-none">
         <HiMenu size={20} />
       </button>
@@ -16,8 +25,8 @@ const Navbar = (): JSX.Element => {
           onClick={onClickHomeButton}
           className="btn btn-ghost border-transparent bg-transparent text-xl shadow-none"
         >
-          <span className="font-normal">NEARBY</span>
-          <span className="text-h2">NOSH</span>
+          <span className="text-h2">NEARBY</span>
+          <span className="text-h2 font-bold">NOSH</span>
         </button>
       </div>
 
@@ -27,15 +36,14 @@ const Navbar = (): JSX.Element => {
         </div>
         <div
           tabIndex={0}
-          className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-base-100 shadow"
+          className="card dropdown-content card-compact z-[1] mt-3 w-96 bg-base-100 shadow"
         >
           <div className="card-body">
             <span className="text-lg font-bold">現在地</span>
             <span className="text-info">緯度: {location.lat}</span>
             <span className="text-info">経度: {location.lng}</span>
             <div className="card-actions">
-              {/* TODO: Map or Google Mapへのリンクを表示する */}
-              <button className="btn btn-primary btn-block">Map</button>
+              <CommonMap className="h-80 w-96 rounded" position={location} />
             </div>
           </div>
         </div>
@@ -52,7 +60,14 @@ const Navbar = (): JSX.Element => {
       </div>
 
       <div className="form-control mr-8">
-        <input type="text" placeholder="Search" className="input input-bordered w-96" />
+        <input
+          type="text"
+          value={inputText}
+          onChange={(e) => handleChangeInput(e)}
+          onKeyDown={(e) => onPressEnterKey(e)}
+          placeholder="店名やジャンルを指定する "
+          className="input input-bordered w-96"
+        />
       </div>
     </div>
   );
