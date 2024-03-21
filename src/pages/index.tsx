@@ -1,6 +1,8 @@
 import { NextPage } from 'next';
+// import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 
+// import AccessDenied from '@/components/common/accessDenied';
 import Navbar from '@/components/common/Navbar';
 import Pagination from '@/components/common/Pagination';
 import ShopCards from '@/components/ShopCards';
@@ -8,7 +10,14 @@ import ShopsFilter from '@/components/ShopsFilter';
 import { useShops } from '@/hooks/useShops';
 
 const Shops: NextPage = () => {
+  // const { data: session, loading } = useSession();
   const { shops, totalCount, resultsStart, isSWRLoading, error } = useShops();
+
+  // if (typeof window !== 'undefined' && loading) return null;
+  // if (!session) {
+  //   console.log(session);
+  //   return <AccessDenied />;
+  // }
 
   return (
     <>
